@@ -22,7 +22,7 @@ jobs:
 
             - name: Publishing new package
               run: |
-                  docker login docker.pkg.github.com --username shivamsingh-07
+                  echo "${{ secrets.ACCESS_TOKEN }}" | docker login https://ghcr.io --username shivamsingh-07 --password-stdin
                   docker build -t react-app:latest .
-                  docker tag react-app:latest docker.pkg.github.com/shivamsingh-07/react-app:1.0
-                  docker push docker.pkg.github.com/shivamsingh-07/react-app:1.0
+                  docker tag react-app:latest ghcr.io/shivamsingh-07/react-app:1.0
+                  docker push ghcr.io/shivamsingh-07/react-app:1.0
