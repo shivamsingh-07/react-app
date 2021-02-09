@@ -1,34 +1,31 @@
 name: ReactJS build CI
 
 on:
-  push:
-    branches: [ master ]
+    push:
+        branches: [master]
 
 jobs:
-  build:
+    build:
+        runs-on: ubuntu-latest
 
-    runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [14.x]
 
-    strategy:
-      matrix:
-        node-version: [14.x]
+        steps:
+            - uses: actions/checkout@v2
 
-    steps:
-    - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
+            - name: Installing dependencies
+              run: npm ci
 
-    - name: Installing dependancies
-      run: npm ci
-
-    - name: Building react application
-      run: npm run build
-
-    - name: Deploying to GH-Pages
-      uses: JamesIves/github-pages-deploy-action@4.0.0
-      with:
-        branch: gh-pages
-        folder: build
+            - name: Deploying to GH-Pages
+              run: |
+                  git config --global user.email "61000207+shivamsingh-07@users.noreply.github.com"
+                  git config --global user.name "shivamsingh-07"
+                  git remote set-url origin https://${{ secrets.ACCESS_TOKEN }}@github.com/shivamsingh-07/react-app.git
+                  npm run deploy
