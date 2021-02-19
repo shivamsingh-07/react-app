@@ -25,7 +25,6 @@ jobs:
 
             - name: Deploying to GH-Pages
               run: |
-                  echo ${{ secrets.ACCESS_TOKEN }}
                   git config --global user.email "61000207+shivamsingh-07@users.noreply.github.com"
                   git config --global user.name "shivamsingh-07"
                   git remote set-url origin https://${{ secrets.ACCESS_TOKEN }}@github.com/shivamsingh-07/react-app.git
