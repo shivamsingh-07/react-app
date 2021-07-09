@@ -9,7 +9,7 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <h1>Hi Everyone</h1>
-                <h2>This is a new app</h2>
+                <h2>This is an another new app</h2>
                 <img src={logo} className="App-logo" alt="logo" />
                 <br />
                 <BrowserRouter>
