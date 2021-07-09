@@ -1,11 +1,21 @@
-FROM node:14.15.4-slim
+FROM node:14.17.3-slim AS build
 
-WORKDIR /usr/src/react-app
+WORKDIR /app
 
-COPY . .
+COPY package*.json ./
 
-RUN npm install
+RUN npm ci --silent
 
-EXPOSE 3000
+COPY . ./
 
-CMD [ "npm", "start" ]
+RUN npm run build
+
+FROM nginx:stable-alpine
+
+COPY --from=build /app/build /var/www/app
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
